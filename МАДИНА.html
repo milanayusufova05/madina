@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мадина Абдулаева — Рилсмейкер</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --wine: #561C24;
+  --cream: #E8D8C4;
+  --wine-dark: #3a1118;
+  --wine-mid: #7a2833;
+  --cream-dark: #cdb89e;
+  --cream-light: #f5ede0;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--cream-light); color: var(--wine-dark); overflow-x: hidden; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 56px; transition: background .4s;
+}
+nav.scrolled { background: var(--cream-light); box-shadow: 0 1px 0 var(--cream-dark); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; letter-spacing: .22em; text-transform: uppercase; color: var(--wine); text-decoration: none; }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: var(--wine); text-decoration: none; font-weight: 400; opacity: .75; transition: opacity .2s; }
+.nav-links a:hover { opacity: 1; }
+
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+.hero-left { background: var(--wine); display: flex; flex-direction: column; justify-content: flex-end; padding: 80px 56px 72px; position: relative; }
+.hero-eyebrow { font-size: .72rem; letter-spacing: .26em; text-transform: uppercase; color: var(--cream); opacity: .55; margin-bottom: 24px; animation: fadeUp .9s ease both; }
+.hero-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.6rem, 6vw, 7rem); font-weight: 300; line-height: 1; color: var(--cream); animation: fadeUp .9s .12s ease both; }
+.hero-name em { font-style: italic; color: var(--cream-dark); }
+.hero-tagline { margin-top: 32px; font-size: .88rem; line-height: 1.8; font-weight: 300; color: var(--cream); opacity: .78; max-width: 360px; animation: fadeUp .9s .24s ease both; }
+.hero-cta { margin-top: 48px; display: inline-block; padding: 14px 36px; border: 1px solid rgba(232,216,196,.4); color: var(--cream); text-decoration: none; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; transition: background .3s, border-color .3s; animation: fadeUp .9s .36s ease both; }
+.hero-cta:hover { background: rgba(232,216,196,.12); border-color: var(--cream); }
+.hero-right { background: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 100px 56px 72px; position: relative; }
+.hero-right::before { content: 'M'; position: absolute; font-family: 'Cormorant Garamond', serif; font-size: 40vw; font-weight: 300; color: var(--cream-dark); opacity: .18; line-height: 1; top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; user-select: none; }
+.hero-bullet { display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--cream-dark); position: relative; z-index:1; animation: fadeUp .9s ease both; }
+.hero-bullet:first-child { border-top: 1px solid var(--cream-dark); }
+.hero-bullet-num { font-family: 'Cormorant Garamond', serif; font-size: .85rem; color: var(--wine-mid); opacity: .5; padding-top: 2px; flex-shrink: 0; width: 20px; }
+.hero-bullet-text { font-size: .85rem; line-height: 1.65; font-weight: 300; color: var(--wine-dark); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+section { padding: 100px 56px; }
+.section-label { font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; color: var(--wine); opacity: .5; margin-bottom: 12px; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 4vw, 4rem); font-weight: 300; line-height: 1.1; color: var(--wine); }
+.section-title em { font-style: italic; }
+.divider { height: 1px; background: var(--cream-dark); margin: 0 56px; }
+
+.cases-section { background: var(--wine); padding: 100px 56px; }
+.cases-section .section-label { color: var(--cream); opacity: .45; }
+.cases-section .section-title { color: var(--cream); }
+.cases-grid { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.case-card { position: relative; overflow: hidden; background: rgba(232,216,196,.08); border: 1px solid rgba(232,216,196,.15); cursor: pointer; transition: transform .3s, border-color .3s; text-decoration: none; }
+.case-card:hover { transform: translateY(-4px); border-color: rgba(232,216,196,.4); }
+.case-thumb { width: 100%; padding-top: 177%; position: relative; background: rgba(232,216,196,.05); }
+.case-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.play-icon { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(232,216,196,.4); display: flex; align-items: center; justify-content: center; transition: background .3s; }
+.case-card:hover .play-icon { background: rgba(232,216,196,.15); border-color: rgba(232,216,196,.8); }
+.play-icon svg { width: 18px; height: 18px; fill: var(--cream); margin-left: 3px; }
+.case-num { position: absolute; bottom: 12px; left: 16px; font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--cream); opacity: .3; font-weight: 300; }
+
+.services-section { background: var(--cream-light); }
+.services-grid { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border: 1px solid var(--cream-dark); }
+.service-card { padding: 48px 40px; border: 1px solid var(--cream-dark); position: relative; overflow: hidden; transition: background .3s; }
+.service-card:hover { background: var(--cream); }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--wine); transition: height .4s; }
+.service-card:hover::before { height: 100%; }
+.service-icon { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--wine); opacity: .25; margin-bottom: 20px; display: block; }
+.service-title { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; color: var(--wine); margin-bottom: 12px; }
+.service-desc { font-size: .84rem; line-height: 1.8; font-weight: 300; opacity: .8; }
+.service-price { margin-top: 24px; font-size: .8rem; letter-spacing: .1em; color: var(--wine); font-weight: 500; }
+
+.packages-section { background: var(--cream); padding: 100px 56px; }
+.packages-row { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.pkg { padding: 48px 36px; border: 1px solid var(--cream-dark); position: relative; background: var(--cream-light); transition: transform .3s, box-shadow .3s; }
+.pkg:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(86,28,36,.1); }
+.pkg.featured { background: var(--wine); border-color: var(--wine); }
+.pkg-label { font-size: .68rem; letter-spacing: .24em; text-transform: uppercase; color: var(--wine); margin-bottom: 16px; }
+.pkg.featured .pkg-label { color: var(--cream); opacity: .6; }
+.pkg-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--wine); margin-bottom: 8px; }
+.pkg.featured .pkg-name { color: var(--cream); }
+.pkg-price { font-size: 2rem; font-weight: 300; color: var(--wine); letter-spacing: -.02em; margin-bottom: 4px; }
+.pkg.featured .pkg-price { color: var(--cream); }
+.pkg-sub { font-size: .78rem; opacity: .55; margin-bottom: 28px; }
+.pkg.featured .pkg-sub { color: var(--cream); }
+.pkg-items { list-style: none; }
+.pkg-items li { font-size: .82rem; line-height: 1.6; padding: 8px 0; border-bottom: 1px solid var(--cream-dark); font-weight: 300; }
+.pkg.featured .pkg-items li { color: var(--cream); border-color: rgba(232,216,196,.2); }
+.pkg-items li:last-child { border: none; }
+
+.training-section { background: var(--wine); padding: 100px 56px; }
+.training-section .section-label { color: var(--cream); opacity: .45; }
+.training-section .section-title { color: var(--cream); }
+.training-body { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.training-intro { font-size: .9rem; line-height: 1.9; color: var(--cream); opacity: .8; font-weight: 300; }
+.training-price-block { background: rgba(232,216,196,.07); border: 1px solid rgba(232,216,196,.2); padding: 48px 40px; }
+.training-price-label { font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; color: var(--cream); opacity: .45; margin-bottom: 8px; }
+.training-price-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--cream); line-height: 1; }
+.training-price-sub { font-size: .8rem; color: var(--cream); opacity: .5; margin-top: 4px; margin-bottom: 32px; }
+.training-includes { list-style: none; }
+.training-includes li { font-size: .82rem; color: var(--cream); opacity: .75; padding: 10px 0; border-bottom: 1px solid rgba(232,216,196,.12); font-weight: 300; display: flex; gap: 12px; }
+.training-includes li::before { content: '—'; opacity: .4; flex-shrink: 0; }
+.training-includes li:last-child { border: none; }
+.training-program { margin-top: 40px; display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid rgba(232,216,196,.15); grid-column: 1 / -1; }
+.prog-step { padding: 32px; border-bottom: 1px solid rgba(232,216,196,.1); border-right: 1px solid rgba(232,216,196,.1); }
+.prog-step:nth-child(2n) { border-right: none; }
+.prog-step:nth-last-child(-n+2) { border-bottom: none; }
+.prog-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--cream); opacity: .2; margin-bottom: 8px; }
+.prog-title { font-size: .85rem; letter-spacing: .06em; color: var(--cream); font-weight: 500; margin-bottom: 10px; }
+.prog-items { font-size: .78rem; color: var(--cream); opacity: .6; line-height: 1.7; font-weight: 300; }
+
+.faq-section { background: var(--cream-light); }
+.faq-list { margin-top: 64px; border-top: 1px solid var(--cream-dark); }
+.faq-item { border-bottom: 1px solid var(--cream-dark); }
+.faq-q { width: 100%; background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 28px 0; text-align: left; font-family: 'Jost', sans-serif; font-size: .92rem; font-weight: 400; color: var(--wine-dark); }
+.faq-q span:first-child { max-width: 80%; }
+.faq-arrow { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--cream-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s, transform .3s; font-size: .85rem; }
+.faq-item.open .faq-arrow { background: var(--wine); color: var(--cream); transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; font-size: .84rem; line-height: 1.85; font-weight: 300; color: var(--wine-dark); opacity: .8; transition: max-height .4s ease, padding .4s ease; }
+.faq-item.open .faq-a { max-height: 300px; padding-bottom: 28px; }
+
+.contact-section { background: var(--wine); padding: 100px 56px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; }
+.contact-section .section-label { color: var(--cream); opacity: .45; }
+.contact-section .section-title { color: var(--cream); }
+.contact-text { font-size: .88rem; line-height: 1.9; color: var(--cream); opacity: .7; font-weight: 300; margin-top: 24px; }
+.contact-right { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.contact-link { display: flex; align-items: center; gap: 16px; text-decoration: none; font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; color: var(--cream); opacity: .75; transition: opacity .2s; font-weight: 400; }
+.contact-link:hover { opacity: 1; }
+.contact-link-icon { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(232,216,196,.3); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: background .3s; flex-shrink: 0; }
+.contact-link:hover .contact-link-icon { background: rgba(232,216,196,.12); }
+.contact-tg-btn { display: inline-flex; align-items: center; gap: 12px; margin-top: 16px; padding: 16px 40px; background: var(--cream); color: var(--wine); text-decoration: none; font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; transition: background .3s; }
+.contact-tg-btn:hover { background: var(--cream-dark); }
+
+footer { background: var(--wine-dark); padding: 32px 56px; display: flex; justify-content: space-between; align-items: center; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: .9rem; letter-spacing: .2em; text-transform: uppercase; color: var(--cream); opacity: .4; font-weight: 300; }
+.footer-copy { font-size: .7rem; color: var(--cream); opacity: .25; letter-spacing: .08em; }
+
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  .nav-links { display: none; }
+  section, .cases-section, .packages-section, .training-section, .contact-section { padding: 72px 24px; }
+  .divider { margin: 0 24px; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-left { padding: 120px 24px 60px; min-height: 60vh; }
+  .hero-right { padding: 60px 24px; }
+  .hero-right::before { display: none; }
+  .cases-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-grid { grid-template-columns: 1fr; }
+  .packages-row { grid-template-columns: 1fr; }
+  .training-body { grid-template-columns: 1fr; gap: 40px; }
+  .training-program { grid-template-columns: 1fr; }
+  .prog-step { border-right: none !important; }
+  .contact-section { grid-template-columns: 1fr; gap: 48px; }
+  footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">Мадина Абдулаева</a>
+  <ul class="nav-links">
+    <li><a href="#cases">Кейсы</a></li>
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#training">Обучение</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Контакты</a></li>
+  </ul>
+</nav>
+
+<div class="hero" style="padding:0;">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Рилсмейкер · Контент-креатор</p>
+    <h1 class="hero-name">Мадина<br><em>Абдулаева</em></h1>
+    <p class="hero-tagline">Помогаю привлекать клиентов через экспертные Reels, а не просто «собирать лайки».</p>
+    <a href="#contact" class="hero-cta">Написать мне</a>
+  </div>
+  <div class="hero-right">
+    <div>
+      <div class="hero-bullet" style="animation-delay:.1s"><span class="hero-bullet-num">01</span><span class="hero-bullet-text">Формирую доверие к вам как к эксперту</span></div>
+      <div class="hero-bullet" style="animation-delay:.2s"><span class="hero-bullet-num">02</span><span class="hero-bullet-text">Выделяю среди конкурентов</span></div>
+      <div class="hero-bullet" style="animation-delay:.3s"><span class="hero-bullet-num">03</span><span class="hero-bullet-text">Привожу реальных клиентов и заявки</span></div>
+      <div class="hero-bullet" style="animation-delay:.4s"><span class="hero-bullet-num">04</span><span class="hero-bullet-text">Напрямую влияю на рост продаж</span></div>
+    </div>
+    <p style="margin-top:48px; font-size:.78rem; line-height:1.7; opacity:.5; font-weight:300; position:relative; z-index:1;">
+      Если вам нужен не «контент ради контента»,<br>а система, которая приносит деньги — вам по адресу.
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section class="cases-section" id="cases">
+  <p class="section-label">Портфолио</p>
+  <h2 class="section-title">Мои <em>кейсы</em></h2>
+  <div class="cases-grid">
+    <a class="case-card" href="https://vimeo.com/1179974789" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">01</span></div></a>
+    <a class="case-card" href="https://vimeo.com/1179974792" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">02</span></div></a>
+    <a class="case-card" href="https://vimeo.com/1179974804" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">03</span></div></a>
+    <a class="case-card" href="https://vimeo.com/1179974807" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">04</span></div></a>
+    <a class="case-card" href="https://vimeo.com/1179974791" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">05</span></div></a>
+    <a class="case-card" href="https://vimeo.com/1179974805" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">06</span></div></a>
+    <a class="case-card" href="https://vimeo.com/1179974793" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">07</span></div></a>
+    <a class="case-card" href="https://vimeo.com/1179974808" target="_blank" rel="noopener"><div class="case-thumb"><div class="case-play"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><span class="case-num">08</span></div></a>
+  </div>
+</section>
+
+<section class="services-section" id="services">
+  <p class="section-label">Услуги</p>
+  <h2 class="section-title">Что я <em>предлагаю</em></h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-icon">I</span>
+      <h3 class="service-title">Съёмка</h3>
+      <p class="service-desc">Профессиональная съёмка Reels — от идеи до готового материала. За час получите 5–10 рилс в зависимости от формата.</p>
+      <p class="service-price">1 час — 4 000 ₽</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">II</span>
+      <h3 class="service-title">Монтаж</h3>
+      <p class="service-desc">Динамичный или лёгкий монтаж под ваш формат и стиль. Оплачивается отдельно за каждый рилс.</p>
+      <p class="service-price">Динамичный — 2 000–2 500 ₽ · Лёгкий — 1 000–1 500 ₽</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">III</span>
+      <h3 class="service-title">Сценарии</h3>
+      <p class="service-desc">Сценарии, адаптированные под вашу нишу и аудиторию. Доступны без съёмки.</p>
+      <p class="service-price">5 рилс — 4 000 ₽</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">IV</span>
+      <h3 class="service-title">Консультация</h3>
+      <p class="service-desc">Индивидуально — по съёмке, монтажу или стратегии продвижения. Формат под вашу задачу и уровень.</p>
+      <p class="service-price">Напишите для уточнения стоимости</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="packages-section" id="packages">
+  <p class="section-label">Пакеты</p>
+  <h2 class="section-title"><em>Готовые</em> пакеты съёмки</h2>
+  <div class="packages-row">
+    <div class="pkg">
+      <p class="pkg-label">Пакет 1</p>
+      <h3 class="pkg-name">Старт</h3>
+      <p class="pkg-price">20 000 ₽</p>
+      <p class="pkg-sub">2 часа съёмки</p>
+      <ul class="pkg-items">
+        <li>5 готовых рилс</li>
+        <li>Написание сценариев</li>
+        <li>Организация съёмки</li>
+        <li>Монтаж включён</li>
+        <li>Срок: до 15 дней</li>
+      </ul>
+    </div>
+    <div class="pkg featured">
+      <p class="pkg-label">Пакет 2 · Популярный</p>
+      <h3 class="pkg-name">Про</h3>
+      <p class="pkg-price">35 000 ₽</p>
+      <p class="pkg-sub">4–5 часов (можно разбить на 2 дня)</p>
+      <ul class="pkg-items">
+        <li>10 готовых рилс</li>
+        <li>Написание сценариев</li>
+        <li>Организация съёмки</li>
+        <li>Монтаж включён</li>
+        <li>Срок: до 15 дней</li>
+      </ul>
+    </div>
+    <div class="pkg">
+      <p class="pkg-label">Дополнительно</p>
+      <h3 class="pkg-name">Опции</h3>
+      <p class="pkg-price" style="font-size:1.4rem">По запросу</p>
+      <p class="pkg-sub"> </p>
+      <ul class="pkg-items">
+        <li>Срочный монтаж +1 000 ₽/рилс</li>
+        <li>Сценарии без съёмки — 4 000 ₽/5 рилс</li>
+        <li>Оплата в 2–3 части</li>
+        <li>Бронь после предоплаты</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="training-section" id="training">
+  <p class="section-label">Обучение</p>
+  <h2 class="section-title">Научу снимать Reels,<br><em>которые продают</em></h2>
+  <div class="training-body">
+    <div>
+      <p class="training-intro">
+        Практическое обучение — вы не просто получаете теорию, а начинаете создавать контент, который привлекает внимание, набирает просмотры и приводит клиентов.<br><br>
+        <strong style="font-weight:500; opacity:1;">Формат:</strong> офлайн, 3–5 встреч, 2 недели.<br>
+        Вся теория остаётся у вас навсегда.<br><br>
+        После обучения — обратная связь в течение 2 месяцев и бессрочный доступ к закрытому Telegram-каналу с уроками по динамичному монтажу.
+      </p>
+    </div>
+    <div class="training-price-block">
+      <p class="training-price-label">Стоимость обучения</p>
+      <p class="training-price-num">40 000 ₽</p>
+      <p class="training-price-sub">Возможна оплата в 2–3 части</p>
+      <ul class="training-includes">
+        <li>3–5 офлайн встреч</li>
+        <li>Практика с разбором вашего контента</li>
+        <li>Сопровождение 2 месяца после</li>
+        <li>Закрытый Telegram-канал (бессрочно)</li>
+      </ul>
+    </div>
+    <div class="training-program">
+      <div class="prog-step">
+        <p class="prog-num">01</p>
+        <p class="prog-title">Основы видеосъёмки</p>
+        <p class="prog-items">Работа с камерой · Настройки · Форматы видео</p>
+      </div>
+      <div class="prog-step">
+        <p class="prog-num">02</p>
+        <p class="prog-title">Монтаж Reels</p>
+        <p class="prog-items">База · Динамика · Структура роликов</p>
+      </div>
+      <div class="prog-step">
+        <p class="prog-num">03</p>
+        <p class="prog-title">Создание контента</p>
+        <p class="prog-items">Форматы и стили · Поиск идей · Разбор вашего контента</p>
+      </div>
+      <div class="prog-step">
+        <p class="prog-num">04</p>
+        <p class="prog-title">Публикация и продвижение</p>
+        <p class="prog-items">Как выкладывать · Как усиливать охваты</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section" id="faq">
+  <p class="section-label">Вопросы</p>
+  <h2 class="section-title">Часто <em>спрашивают</em></h2>
+  <div class="faq-list">
+    <div class="faq-item"><button class="faq-q"><span>Подойдёт ли обучение новичку?</span><span class="faq-arrow">+</span></button><div class="faq-a">Да. Программа выстроена так, что вы сможете начать с нуля и уже в процессе обучения снять свои первые Reels.</div></div>
+    <div class="faq-item"><button class="faq-q"><span>А если у меня уже есть опыт?</span><span class="faq-arrow">+</span></button><div class="faq-a">Вы систематизируете знания, прокачаете сценарии и монтаж, начнёте делать более сильный и результативный контент.</div></div>
+    <div class="faq-item"><button class="faq-q"><span>Нужно ли профессиональное оборудование?</span><span class="faq-arrow">+</span></button><div class="faq-a">Нет. Достаточно телефона. Я покажу, как снимать качественно без дорогой техники.</div></div>
+    <div class="faq-item"><button class="faq-q"><span>Можно ли окупить обучение?</span><span class="faq-arrow">+</span></button><div class="faq-a">Да. После обучения вы сможете брать первые заказы на съёмку и монтаж, привлекать клиентов через Reels и зарабатывать на создании контента.</div></div>
+    <div class="faq-item"><button class="faq-q"><span>Будет ли обратная связь после обучения?</span><span class="faq-arrow">+</span></button><div class="faq-a">Да. В течение 2 месяцев я разбираю ваш контент, даю рекомендации и помогаю вам расти. Плюс бессрочный доступ к закрытому Telegram-каналу с уроками.</div></div>
+    <div class="faq-item"><button class="faq-q"><span>Можно ли оплатить в рассрочку?</span><span class="faq-arrow">+</span></button><div class="faq-a">Да, оплату обучения можно разделить на 2–3 части.</div></div>
+    <div class="faq-item"><button class="faq-q"><span>Почему такая стоимость?</span><span class="faq-arrow">+</span></button><div class="faq-a">Это не просто теория, а практическое обучение с разбором вашего контента и сопровождением после. Вы получаете не информацию, а навык, который можно сразу применять для заработка.</div></div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div>
+    <p class="section-label">Контакты</p>
+    <h2 class="section-title">Давайте<br><em>работать</em></h2>
+    <p class="contact-text">Если вам нужен контент, который приносит деньги — напишите мне. Обсудим ваш проект и подберём нужный формат.</p>
+  </div>
+  <div class="contact-right">
+    <a class="contact-link" href="https://t.me/+79884236641" target="_blank" rel="noopener">
+      <span class="contact-link-icon">✈</span><span>Telegram</span>
+    </a>
+    <a class="contact-link" href="https://www.instagram.com/reel/DVO2HBdjc2M/?igsh=Y2Y0cHNoYmM2c3Ry" target="_blank" rel="noopener">
+      <span class="contact-link-icon">◎</span><span>Instagram</span>
+    </a>
+    <a class="contact-tg-btn" href="https://t.me/+79884236641" target="_blank" rel="noopener">Написать в Telegram →</a>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Мадина Абдулаева</span>
+  <span class="footer-copy">Рилсмейкер · Контент-креатор · 2025</span>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.service-card, .pkg, .prog-step, .case-card').forEach(el => {
+  el.style.opacity='0'; el.style.transform='translateY(20px)'; el.style.transition='opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
